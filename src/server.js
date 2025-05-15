@@ -87,7 +87,7 @@ const endpoints = (app) => {
       const params = {
         DelaySeconds: 10,
         MessageBody: orderMessage,
-        QueueUrl: '',
+        QueueUrl: 'https://sqs.us-east-1.amazonaws.com/147820604610/orders-queue',
       }
 
       sqs.sendMessage(params, (err, data) => {
