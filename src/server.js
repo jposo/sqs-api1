@@ -79,7 +79,7 @@ const endpoints = (app) => {
     const user = await User.findByPk(req.params.id);
     if (user) {
       const orderMessage = JSON.stringify({
-        userId: user.id,
+        user_id: user.id,
         product,
         quantity,
       });
