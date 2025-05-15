@@ -90,14 +90,19 @@ const endpoints = (app) => {
         QueueUrl: 'https://sqs.us-east-1.amazonaws.com/147820604610/orders-queue',
       }
 
-      sqs.sendMessage(params, (err, data) => {
-        if (err) {
-          console.error('Error sending message to SQS', err);
-          return res.status(500).json({ message: 'Error creating order' });
-        }
-        console.log('Order message sent to SQS', data.MessageId);
-      });
-      res.json({ message: 'Order created successfully' });
+      try {
+        sqs.sendMessage(params, (err, data) => {
+          if (err) {
+            console.error('Error sending message to SQS', err);
+            return res.status(500).json({ message: 'Error creating order' });
+          }
+          console.log('Order message sent to SQS', data.MessageId);
+        });
+        res.json({ message: 'Order created successfully' });
+      } catch (error) {
+        console.error('Error creating order', error);
+        res.status(500).json({ message: 'Error creating order' });
+      }
     } else {
       res.status(404).json({ message: 'User not found' });
     }
